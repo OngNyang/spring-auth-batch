@@ -14,7 +14,8 @@ public class RedisSessionService {
     }
 
     public Set<String>  getActiveSessions() {
-        return (redisTemplate.keys("spring:session:sessions:*"));
+//        return (redisTemplate.keys("spring:session:sessions:*"));
+        return (redisTemplate.keys("*"));
     }
 
     public Object   getSessionDetails(String seesionId) {
