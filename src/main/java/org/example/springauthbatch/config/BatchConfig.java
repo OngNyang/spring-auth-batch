@@ -24,26 +24,26 @@ public class BatchConfig {
     }
 
     @Bean
-    public Job sessionJob() {
-        Job job = new JobBuilder("sessionJob", jobRepository).start(sessionStep()).build();
+    public Job sessionJob(SessionTask sessionTask) {
+        Job job = new JobBuilder("sessionJob", jobRepository).start(sessionStep(sessionTask)).build();
 
         return (job);
     }
 
     @Bean
-    public Step sessionStep() {
-        Step    step = new StepBuilder("sessionStep", jobRepository).tasklet(sessionTask(), platformTransactionManager).build();
+    public Step sessionStep(SessionTask sessionTask) {
+        Step    step = new StepBuilder("sessionStep", jobRepository).tasklet(sessionTask, platformTransactionManager).build();
 
         return (step);
     }
 
-    @Bean
-    public Tasklet  sessionTask() {
-        Tasklet task = ((contribution, chunkContext) -> {
-            System.out.println("Batch job is running...");
-            return (null);
-        }) ;
-
-        return (task);
-    }
+//    @Bean(name = "sessionTaskConfig")
+//    public Tasklet  sessionTask() {
+//        Tasklet task = ((contribution, chunkContext) -> {
+//            System.out.println("Batch job is running...");
+//            return (null);
+//        }) ;
+//
+//        return (task);
+//    }
 }

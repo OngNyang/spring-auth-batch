@@ -26,6 +26,9 @@ public class SessionTask implements Tasklet {
     @Override
     public RepeatStatus execute(StepContribution contribution, ChunkContext chunkContext) throws Exception {
         Set<String> activeSessions = redisSessionService.getActiveSessions();
+        System.out.println("job executed....");
+        System.out.print("activeSessions: ");
+        System.out.println(activeSessions);
 
         for (String sessionId : activeSessions) {
             saveRedisSessionToDb(sessionId);
@@ -39,11 +42,13 @@ public class SessionTask implements Tasklet {
         Map<String, Object> sessionData;
         UserSession         userSession;
 
-        if (sessionDetails instanceof Map) {
-            sessionData = (Map<String, Object>) sessionDetails;
-            userSession = mapToEntity(sessionId, sessionData);
-            userSessionRepository.save(userSession);
-        }
+        sessionData = (Map<String, Object>) sessionDetails;
+        userSession = mapToEntity(sessionId, sessionData);
+        userSessionRepository.save(userSession);
+        System.out.print("sessionData: ");
+        System.out.print(sessionData);
+        System.out.print("userSession: ");
+        System.out.print(userSession);
     }
 
     private UserSession mapToEntity(String sessionId, Map<String, Object> sessionData) {
